@@ -4,10 +4,10 @@ def sofrer_dano(dano,vida):
         dano = vida - dano
         if dano > vida:
             return "GAME OVER"
+        else:
+            return "DERROTE O MONSTRO!!!"
 
-valor_vida = 100
-monstro = int(input("Digite o dano : "))   
-        
-jogador = 
-mensagem = sofrer_dano(jogador)
+valor_vida = 100  
+personagem = int(input("Digite a quantidade de vida: ")) 
+mensagem = sofrer_dano(personagem,valor_vida)
 print(mensagem)
