@@ -15,7 +15,6 @@ def listar_produtos(produtos):
 def atualizar_produto(indice, novo_nome,estoque):
     estoque[indice] = novo_nome
  
-
 def remover_produto(indice,estoque):
     if indice < len(estoque):
         estoque.pop(indice)
