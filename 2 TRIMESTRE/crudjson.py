@@ -66,14 +66,15 @@ def atualizar(): # Criando uma função
     cpf_busca = input("Digite o CPF do aluno que deseja editar: ") # Editando o cpf
     
     for aluno in alunos:
-        if aluno['cpf'] == cpf_busca:
-            print(f"Editando dados de: {aluno['nome']}")
-            aluno['nome'] = input(f"Novo Nome ({aluno['nome']}): ") or aluno['nome']
+        if aluno['cpf'] == cpf_busca: # Se o objeto ("cpf") for igual da variavel (cpf_busca) vai ocorrer a seguinte ação
+            print(f"Editando dados de: {aluno['nome']}") 
+            aluno['nome'] = input(f"Novo Nome ({aluno['nome']}): ") or aluno['nome'] # Exibe o nome que foi salvo e ao mesmo tempo ele pede para digitar um novo nome
             aluno['telefone'] = input(f"Novo Telefone ({aluno['telefone']}): ") or aluno['telefone']
             aluno['turma'] = input(f"Nova Turma ({aluno['turma']}): ") or aluno['turma']
             aluno['idade'] = int(input(f"Nova Idade ({aluno['idade']}): ") or aluno['idade'])
             aluno['cpf'] = input(f"Novo CPF ({aluno['cpf']}): ") or aluno['cpf']
             
+            # Abrindo o arquivo para sobrescrever as novas atualizações
             with open(BANCO_DADOS, 'w', encoding='utf-8') as f:
                 json.dump(alunos, f, indent=4, ensure_ascii=False)
             print("Dados atualizados com sucesso!")
