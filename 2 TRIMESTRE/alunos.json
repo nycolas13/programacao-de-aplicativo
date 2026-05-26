@@ -1,1 +1,26 @@
-[]
+[
+    {
+        "id": 2323,
+        "nome": "Nycolas Antônio Gomes Tomaz",
+        "telefone": "44 99132-2805",
+        "turma": "B",
+        "idade": 16,
+        "cpf": 15455986902
+    },
+    {
+        "id": 15455986902,
+        "nome": "Nycolas Antônio Gomes Tomaz",
+        "telefone": "44 99132-2805",
+        "turma": "B",
+        "idade": 16,
+        "cpf": 15455986902
+    },
+    {
+        "id": 23,
+        "nome": "Nycolas",
+        "telefone": "44 992332-8253",
+        "turma": "B",
+        "idade": 16,
+        "cpf": 15455089602
+    }
+]
