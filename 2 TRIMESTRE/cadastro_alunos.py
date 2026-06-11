@@ -19,7 +19,7 @@ cursor.execute('''
 
 print("Tabela e configurações")
 nome_aluno = input("Nome Completo: ")
-telefone_aluno = input("Telf(): ")
+telefone_aluno = input("Telf: () ")
 turma_aluno = input("Classificação de turma: ")
 idade_aluno = int(input("Idade do Aluno: "))
 cpf_aluno = input("CPF do aluno: ")
@@ -53,23 +53,14 @@ print(".")
 conexao = sqlite3.connect('escola_demonstracao.db')
 cursor = conexao.cursor()
 
-cursor.execute('''
-                CREATE TABLE IF NOT EXISTS aluno(
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nome TEXT NOT NULL,
-                telefone TEXT,
-                turma TEXT,
-                idade INTEGER,
-                cpf TEXT UNIQUE NOT NULL
-                )''')
-
 cursor.execute("SELECT * FROM alunos")
-resultados = cursor.fetchall()
+resultados = cursor.fetchone()
 
-print("--- DADOS DOS ALUNOS CADASTRADOS ---")
-for aluno in resultados:
-    print(f"ID: {aluno} | Nome: {aluno} | Tel: {aluno} | Turma: {aluno} | Idade: {aluno} | CPF: {aluno}")
+print("   DADOS DOS ALUNOS CADASTRADOS   ")
+
+if resultados:
+    print(f"ID: {resultados[0]} | Nome: {resultados[1]} | Tel: {resultados[2]} | Turma: {resultados[3]} | Idade: {resultados[4]} | CPF: {resultados[5]}")
 
 # 5. Fecha a conexão
 conexao.close()
-print("--DESLIGANDO......")
+print("  DESLIGANDO SISTEMA......")
