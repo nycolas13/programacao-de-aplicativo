@@ -90,8 +90,31 @@ def alterar_dados_aluno():
     print("Aluno atualizado com sucesso!")
     print("  DESLIGANDO SISTEMA......")
 
+def excluir_aluno():
+    print("Conectando ao banco de dados........")
+    print("Bem-vindo de volta. O que quer fazer hoje?")
+    print("---SISTEMA DE EXCLUSÃO DE ALUNOS---")
+    id_aluno = int(input("Digite o ID do aluno que deseja EXCLUIR: "))
+    
+    conexao = sqlite3.connect('escola_demonstracao.db')
+    cursor = conexao.cursor()
+
+    sql_delete = """
+    DELETE FROM aluno
+    WHERE id = ?
+    """
+
+    print("Aluno EXCLUIDO COM SUCESSO")
+    print("  DESLIGANDO SISTEMA......")
+
+    cursor.execute(sql_delete,(id_aluno,))
+    conexao.commit()
+    conexao.close()
+
+
 cadastrar_aluno()
 listar_aluno()
 alterar_dados_aluno()
+excluir_aluno()
 
 
