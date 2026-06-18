@@ -14,7 +14,9 @@ def cadastrar_aluno():
                     telefone TEXT,
                     turma TEXT,
                     idade INTEGER,
-                    cpf TEXT UNIQUE NOT NULL
+                    cpf TEXT UNIQUE NOT NULL,
+                    professor_id INTEGER,
+                    FOREIGN KEY (professor_id) REFERENCES professores(id)
                     )''')
 
     print("Tabela e configurações")
@@ -24,20 +26,25 @@ def cadastrar_aluno():
     idade_aluno = int(input("Idade do Aluno: "))
     cpf_aluno = input("CPF do aluno: ")
 
+    print("ID do professor")
+    id_prof = int(input("Digite o ID do professor que queira alterar: "))
+
     comando_inserir = f'''
                         INSERT INTO aluno(
                             nome,
                             telefone,
                             turma,
                             idade,
-                            cpf
+                            cpf,
+                            professor_id
                             )
                         VALUES (
                             '{nome_aluno}', 
                             '{telefone_aluno}', 
                             '{turma_aluno}',
                             '{idade_aluno}',
-                            '{cpf_aluno}'
+                            '{cpf_aluno}',
+                            '{id_prof}'
                             )'''
 
     cursor.execute(comando_inserir)
@@ -58,7 +65,7 @@ def listar_aluno():
     print("   DADOS DOS ALUNOS CADASTRADOS   ")
 
     for aluno in resultados:
-        print(f"ID: {aluno[0]} | Nome: {aluno[1]} | Tel: {aluno[2]} | Turma: {aluno[3]} | Idade: {aluno[4]} | CPF: {aluno[5]}")
+        print(f"ID: {aluno[0]} | Nome: {aluno[1]} | Tel: {aluno[2]} | Turma: {aluno[3]} | Idade: {aluno[4]} | CPF: {aluno[5]} | ID_PROF: {aluno[6]}")
         print("-" * 30)
     # 5. Fecha a conexão
     conexao.close()
@@ -112,12 +119,9 @@ def excluir_aluno():
     conexao.close()
 
 
-cadastrar_aluno()
-listar_aluno()
-alterar_dados_aluno()
-excluir_aluno()
 
-def cadastrar():
+
+def cadastrar_prof():
     conexao = sqlite3.connect('escola_demonstracao.db')
     cursor = conexao.cursor()
     print("Abrindo arquivo.....")
@@ -170,7 +174,7 @@ def cadastrar():
     conexao.close()
     
 
-def listar():
+def listar_prof():
     conexao = sqlite3.connect('escola_demonstracao.db')
     cursor = conexao.cursor()
     print("---LISTAR PROFESSORES---")
@@ -193,7 +197,7 @@ def listar():
     
     conexao.close()
 
-def alterar():
+def alterar_prof():
     print("---ALTERAR PROFESSOR---")
     id_prof = int(input("Digite o ID do professor que queira alterar: "))
     novo_nome = input("Digite o nome do professor novo: ")
@@ -223,7 +227,7 @@ def alterar():
     conexao.commit()
     conexao.close()
 
-def deletar():
+def deletar_prof():
     print("---DELETAR PROFESSOR---")
     conexao = sqlite3.connect('escola_demonstracao.db')
     cursor = conexao.cursor()
@@ -242,27 +246,45 @@ def deletar():
 def menu():
     opcao = 0
 
-    while opcao != 5:
-        print("""   MENU   
+    while opcao != 9:
+        print("""   MENU
+                 PROFESSORES   
                 
                 1 - CADASTRAR | 
                 2 - LISTAR | 
                 3 - ALTERAR | 
                 4 - EXCLUIR | 
-                5 - SAIR
+                
+                    MENU
+                   ALUNOS
+
+                5 - Cadastrar Aluno (Interligado)
+                6 - Listar Alunos
+                7 - Alterar Aluno
+                8 - Excluir Aluno
+                
+                9 - SAIR
                 
                 """)
         opcao = input("Escolha uma opção: ")
 
         if opcao == "1":
-            cadastrar()
+            cadastrar_prof()
         elif opcao == "2":
-            listar()
+            listar_prof()
         elif opcao == "3":
-            alterar()
+            alterar_prof()
         elif opcao == "4":
-            deletar()
+            deletar_prof()
         elif opcao == "5":
+            cadastrar_aluno()
+        elif opcao == "6":
+            listar_aluno()
+        elif opcao == "7":
+            alterar_dados_aluno()
+        elif opcao == "8":
+            excluir_aluno()
+        elif opcao == "9":
             print("Salvando.....")
             print("Salvo")
             print("DESLIGANDO.....")
