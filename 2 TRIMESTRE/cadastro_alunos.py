@@ -15,6 +15,9 @@ def cadastrar_aluno():
                     turma TEXT,
                     idade INTEGER,
                     cpf TEXT UNIQUE NOT NULL,
+                    endereco TEXT,
+                    cidade TEXT,
+                    estado TEXT,
                     professor_id INTEGER,
                     FOREIGN KEY (professor_id) REFERENCES professores(id)
                     )''')
@@ -25,9 +28,12 @@ def cadastrar_aluno():
     turma_aluno = input("Classificação de turma: ")
     idade_aluno = int(input("Idade do Aluno: "))
     cpf_aluno = input("CPF do aluno: ")
+    endereco_aluno = input("Endereço da casa: ")
+    cidade_aluno = input("Nome da cidade: ")
+    estado_aluno = input("Nome do estado: ")
 
     print("ID do professor")
-    id_prof = int(input("Digite o ID do professor que queira alterar: "))
+    id_prof = int(input("Digite o ID do professor: "))
 
     comando_inserir = f'''
                         INSERT INTO aluno(
@@ -36,6 +42,9 @@ def cadastrar_aluno():
                             turma,
                             idade,
                             cpf,
+                            endereco,
+                            cidade,
+                            estado,
                             professor_id
                             )
                         VALUES (
@@ -44,6 +53,9 @@ def cadastrar_aluno():
                             '{turma_aluno}',
                             '{idade_aluno}',
                             '{cpf_aluno}',
+                            '{endereco_aluno}',
+                            '{cidade_aluno}',
+                            '{estado_aluno}',
                             '{id_prof}'
                             )'''
 
@@ -65,7 +77,7 @@ def listar_aluno():
     print("   DADOS DOS ALUNOS CADASTRADOS   ")
 
     for aluno in resultados:
-        print(f"ID: {aluno[0]} | Nome: {aluno[1]} | Tel: {aluno[2]} | Turma: {aluno[3]} | Idade: {aluno[4]} | CPF: {aluno[5]} | ID_PROF: {aluno[6]}")
+        print(f"ID: {aluno[0]} | Nome: {aluno[1]} | Tel: {aluno[2]} | Turma: {aluno[3]} | Idade: {aluno[4]} | CPF: {aluno[5]} | ENDERECO: {aluno[6]} | CIDADE: {aluno[7]} | ESTADO: {aluno[8]} | ID_PROF: {aluno[9]}")
         print("-" * 30)
     # 5. Fecha a conexão
     conexao.close()
@@ -135,6 +147,7 @@ def cadastrar_prof():
     cpf_prof = input("CPF: ")
     salario_prof = float(input("SALÁRIO: "))
     escola_prof = input("Nome da Escola: ")
+    endereco_prof = input("Endereço da casa: ")
 
     cursor.execute('''
                     CREATE TABLE IF NOT EXISTS professores(
@@ -145,7 +158,8 @@ def cadastrar_prof():
                     idade INTEGER,
                     cpf TEXT UNIQUE NOT NULL,
                     salario REAL,
-                    escola TEXT
+                    escola TEXT,
+                    endereco TEXT
                     )''')
 
     comando_inserir = f'''
@@ -156,7 +170,8 @@ def cadastrar_prof():
                         idade,
                         cpf,
                         salario,
-                        escola
+                        escola,
+                        endereco
                         )
                     VALUES (
                         '{nome_prof}',
@@ -165,7 +180,8 @@ def cadastrar_prof():
                         '{idade_prof}',
                         '{cpf_prof}',
                         '{salario_prof}',
-                        '{escola_prof}'
+                        '{escola_prof}',
+                        '{endereco_prof}'
                         )'''
 
     cursor.execute(comando_inserir)
@@ -191,7 +207,8 @@ def listar_prof():
               IDADE: {professore[4]},
                 CPF: {professore[5]},
                 SALARIO: {professore[6]},
-                ESCOLA: {professore[7]}  
+                ESCOLA: {professore[7]},
+                ENDERECO: {professore[8]} 
             """)
         print("-" * 30)
     
@@ -207,6 +224,7 @@ def alterar_prof():
     novo_cpf = input("Digite o CPF do professor: ")
     novo_salario = float(input("Digite o quanto esse professor merece: "))
     novo_escola = input("Digite o nome da escola: ")
+    novo_endereco = input("Novo endereço: ")
 
     conexao = sqlite3.connect('escola_demonstracao.db')
     cursor = conexao.cursor()
@@ -219,10 +237,11 @@ def alterar_prof():
     idade = ?,
     cpf = ?,
     salario = ?,
-    escola = ?
+    escola = ?,
+    endereco = ?
     WHERE id = ?
     """
-    cursor.execute(sql_update, (novo_nome, novo_telefone, novo_materia, novo_idade, novo_cpf, novo_salario, novo_escola, id_prof))
+    cursor.execute(sql_update, (novo_nome, novo_telefone, novo_materia, novo_idade, novo_cpf, novo_salario, novo_escola, novo_endereco, id_prof))
 
     conexao.commit()
     conexao.close()
