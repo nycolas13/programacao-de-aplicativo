@@ -6,10 +6,10 @@ def inicializar_banco():
 
     cursor.execute('''
                 CREATE TABLE IF NOT EXISTS escolas (
-                id INTERGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nome TEXT NOT NULL
                 )''')
     conexao.commit()
     conexao.close()
-    # Faltou o conexao.commit, que é justamente o comando para salvar.
+   
 inicializar_banco()

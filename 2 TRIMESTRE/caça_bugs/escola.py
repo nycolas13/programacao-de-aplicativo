@@ -7,9 +7,10 @@ def cadastrar_escola_rapido():
     conexao = sqlite3.connect('sistema_escola.db')
     cursor = conexao.cursor()
 
-    cursor.execute(f"INSERT INTO escolas(nome,endereco) VALUES('{nome}','{endereco}')")
+    cursor.execute(f"INSERT INTO escolas(nome,endereco) VALUES(?, ?)", (nome, endereco))
 
     conexao.commit()
     conexao.close()
 
 # Falta o CREATE TABLE.
+cadastrar_escola_rapido()
