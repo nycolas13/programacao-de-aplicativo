@@ -8,4 +8,8 @@ def menu():
             print("Cadastrando...")
         elif opcao == "2":
             print("Saindo do programa. ")
+            break
+
+# Falta o break.
+menu()
             
