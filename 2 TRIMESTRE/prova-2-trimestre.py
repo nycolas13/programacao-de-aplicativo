@@ -14,13 +14,12 @@ def criar_tabela():
             nome TEXT,
             cidade TEXT
             )''')
-        cursor.execute(''' INSERT INTO hospitais(
-                       nome, cidade) VALUES (?,?)''', (nome,cidade))
+       
         
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS medicos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nome_medico TEXT NOT NULL,
+                nome TEXT NOT NULL,
                 crm TEXT UNIQUE NOT NULL,
                 id_hospital INTEGER NOT NULL,
                 FOREIGN KEY (id_hospital) REFERENCES hospitais (id)
@@ -31,7 +30,7 @@ def criar_tabela():
     except sqlite3.IntegrityError:
         print("Erro no ID de hospital não existe")
     except ValueError:
-        print("Erro o ID tentativa de transformar ID em")
+        print("Erro o ID tentativa de transformar ID em texto")
     except sqlite3.Error:
         print('Erro no sqlite')
     finally:
@@ -50,7 +49,7 @@ def criar_medicos():
 
         cursor.execute('''
             INSERT INTO medicos(
-                nome_medico,crm, id_hospital) VALUES(?,?,?)''',(nome_medico,crm,id_hospital))
+                nome,crm, id_hospital) VALUES(?,?,?)''',(nome_medico,crm,id_hospital))
 
         conexao.commit()
         print(f"Médico {nome_medico} cadastrado com sucesso")
