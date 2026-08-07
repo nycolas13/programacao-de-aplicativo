@@ -8,18 +8,23 @@ def criar_tabela():
 
         cursor.execute("PRAGMA foreing_keys = ON; ")
 
+        cursor.execute("DROP TABLE IF EXISTS hoteis;")
+        cursor.execute("DROP TABLE IF EXISTS quartos;")
+
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS hoteis(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nome TEXT,
-            cidade TEXR)''')
+            cidade TEXT)''')
+        
         cursor.execute('''
-            CREATE TABLE IF NOT EXISTS quarto(
+            CREATE TABLE IF NOT EXISTS quartos(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             numero INTEGER NOT NULL,
             preco_diaria INTEGER NOT NULL,
-            id_hotel,
-            FOREING KEY (id_hoteis) REFERENCES hoteis(id))''')
+            id_hoteis INTEGER NOT NULL,
+            FOREIGN KEY (id_hoteis) REFERENCES hoteis(id))''')
+        
         conexao.commit()
 
     except sqlite3.IntegrityError as e:
@@ -30,6 +35,7 @@ def criar_tabela():
         print("ERROR: No SQL: ",e)
     finally:
         conexao.close()
+criar_tabela()
 
 #Cadastro com Validação
 def criar_quarto():
@@ -39,10 +45,10 @@ def criar_quarto():
 
         numero = int(input("Digite um número: "))
         preco_diaria = int(input("Digite o preço diario: "))
-        id_hotel = int(input("Digite o ID do Hotel: "))
+        id_hoteis= int(input("Digite o ID do Hotel: "))
 
-        cursor.execute('''INSERT INTO quarto(
-        numero,preco_diaria,id_hotel) VALUES (?,?,?)''',(numero,preco_diaria,id_hotel))
+        cursor.execute('''INSERT INTO quartos(
+        numero,preco_diaria,id_hoteis) VALUES (?,?,?)''',(numero,preco_diaria,id_hoteis))
 
         conexao.commit()
 
@@ -63,3 +69,30 @@ def criar_hotel():
         nome = input("Digite um nome: ")
         cidade = input("Digite o nome da cidade: ")
         
+        cursor.execute('''
+        INSERT INTO hoteis(nome,cidade) VALUES(?,?)''',(nome,cidade))
+        
+        conexao.commit()
+
+    except sqlite3.IntegrityError as e:
+        print("ERROR: ",e)
+    except ValueError as e:
+        print("ERROR: ", e)
+    except sqlite3.Error as e:
+        print("ERROR: ",e)
+    finally:
+        conexao.close()
+
+opcao = 0
+
+while opcao != 3:
+    print("1-Cadastrar quarto | 2-Identificar o hotel | 3-Sair")
+    opcao = input("Escolha uma opção: ")
+
+    if opcao == "1":
+        criar_quarto()
+    elif opcao == "2":
+        criar_hotel()
+    elif opcao == "3":
+        break
+print("FECHANDO....")
