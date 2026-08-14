@@ -31,19 +31,19 @@ def criar_tabela():
         print("ERROR: ERRO NO SQL: ",e)
     finally:
         conexao.close()
-criar_tabela()
+
 
 def cadastrar_fabricante():
     try:
         conexao = sqlite3.connect('sistema_assistencia.db')
         cursor = conexao.cursor()
 
-        marca = input("Digite a marca do eletrônico: ")
+        marca_eletronica = input("Digite a marca do eletrônico: ")
         origem = input("Digite a origem do fabricante: ")
 
         cursor.execute('''
             INSERT INTO fabricantes_globais(
-            marca,origem) VALUES(?,?)''',(marca,origem))
+            marca_eletronica,origem) VALUES(?,?)''',(marca_eletronica,origem))
         conexao.commit()
         print("Salvo")
     except sqlite3.IntegrityError as e:
@@ -52,7 +52,7 @@ def cadastrar_fabricante():
         print("ERROR: Tentativa de transformar o ID em texto: ",e)
     finally:
         conexao.close()
-cadastrar_fabricante()
+
 
 def listar_fabricante():
     try:
@@ -70,7 +70,7 @@ def listar_fabricante():
         print("Error: na lista",e)
     finally:
         conexao.close()
-listar_fabricante()
+
 
 def atualizar_fabricante():
     try:
@@ -99,7 +99,7 @@ def atualizar_fabricante():
         print("ERROR: ATUALIZAR")
     finally:
         conexao.close()
-atualizar_fabricante()
+
 
 def excluir_fabricante():
     try:
@@ -125,17 +125,17 @@ def excluir_fabricante():
         print(f"ERROR ao excluir: ",e)
     finally:
         conexao.close()
-excluir_fabricante()
+
 
 def cadastrar_posto():
     try:
         conexao = sqlite3.connect('sistema_assistencia.db')
         cursor = conexao.cursor()
 
-        nome_equipe = input("Digite o nome da sua equipe de fabricantes: ")
+        nome_cidade = input("Digite o nome da cidade do  fabricantes: ")
         id_fabricante = int(input("Digite o ID do Fabricante: "))
 
-        cursor.execute("INSERT INTO posto_atendimento(nome_equipe,id_fabricante) VALUES (?,?)",(nome_equipe,id_fabricante))
+        cursor.execute("INSERT INTO posto_atendimento(nome_equipe,id_fabricante) VALUES (?,?)",(nome_cidade,id_fabricante))
         conexao.commit()
         print("Salvo")
     except sqlite3.IntegrityError as e:
@@ -144,7 +144,7 @@ def cadastrar_posto():
         print("ERROR:Tentativa de transformar o ID em texto: ",e)
     finally:
         conexao.close()
-cadastrar_posto()
+
 
 def listar_posto():
     try:
@@ -162,7 +162,7 @@ def listar_posto():
         print("Error: na lista",e)
     finally:
         conexao.close()
-listar_posto()
+
 
 def atualizar_posto():
     try:
@@ -177,8 +177,9 @@ def atualizar_posto():
             print("ID do posto de atendimento não encontrado.")
         listar_fabricante()
         novo_id_fabricante = int(input("Digite o novo ID do Fabricante Correspondente: "))
-        cursor.execute("SELECT id FROM fabricantes_globais WHERE id = ?",(novo_id_fabricante))
         nova_cidade = input("Digite a nova cidade: ")
+        cursor.execute("SELECT id FROM fabricantes_globais WHERE id = ?",(novo_id_fabricante,nova_cidade))
+        
         if not nova_cidade:
             print("A cidade não pode ser vazia.")
 
@@ -191,7 +192,7 @@ def atualizar_posto():
         print("ERROR: AO ATUALIZAR",e)
     finally:
         conexao.close()
-atualizar_posto()
+
 
 def excluir_posto():
     try:
@@ -201,7 +202,7 @@ def excluir_posto():
         listar_posto()
         id_reg = int(input("DIGITE o ID do posto de atendimento que deseja excluir: "))
 
-        cursor.execute("DELETE FROM posto_atendimento WHERE id = ?",(id_reg))
+        cursor.execute("DELETE FROM posto_atendimento WHERE id = ?",(id_reg,))
         conexao.commit()
         print("Posto de atendimento excluido com sucesso!")
     except ValueError as e:
@@ -210,11 +211,13 @@ def excluir_posto():
         print("ERROR: ao excluir",e)
     finally:
         conexao.close()
-excluir_posto()
+
 
 def menu():
-    opcao = 9
+    criar_tabela()
+    opcao = 0
     while opcao != 9:
+        print("--- MENU INTERATIVO ---")
         print("1-Cadastar Fabricante | " \
         "2 - Listar Fabricante | 3 - Atualizar Fabricante |" \
         "4 - Excluir Fabricante")
@@ -245,8 +248,8 @@ def menu():
                 print("Saindo")
                 break
             else:
-                print("Opção inválida! Escolha um número inteiro entre 9 e 8.")
+                print("Opção inválida! Escolha um número inteiro entre 1 e 9.")
         except ValueError as e:
             print("ERROR: Digite apenas números inteiros válidos.")
-if __name__ == "__main__":
-    menu()
+
+menu()
